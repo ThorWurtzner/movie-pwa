@@ -1,0 +1,116 @@
+@import "../../App.scss";
+
+.singleView {
+    padding: 30px 0;
+    max-width: 400px;
+
+    @include desktop {
+        max-width: 800px;
+    }
+
+    img {
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
+        object-fit: cover;
+        margin: 20px 0;
+        border: 2px solid rgb(175, 175, 175);
+
+        @include desktop {
+            max-width: 300px;
+            height: 100%;
+        }
+    }
+
+    &__wrapper {
+        @include desktop {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    
+    &__content {
+        @include desktop {
+            margin-left: 30px;
+            margin-top: 30px;
+        }
+    }
+
+    &__title {
+        color: #fff;
+        font-size: 35px;
+    }
+
+    &__releaseDate {
+        color: #fff;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+
+    &__scores {
+        display: flex;
+        // justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 20px;
+
+        &__metascore {
+            // width: 50px;
+            // height: 50px;
+            // background-color: rgb(70, 155, 70);
+            // border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 24px;
+            color: rgb(99, 190, 99);
+            font-weight: bolder;
+            margin-right: 30px;
+        }
+
+        &__imdb {
+            font-size: 24px;
+            font-weight: bolder;
+            color: orange;
+        }
+    }
+
+    &__genre {
+        font-size: 14px;
+        background-color: orange;
+        width: fit-content;
+        padding: 5px 10px;
+        border-radius: 40px;
+        margin-top: 10px;
+    }
+
+    &__runtime {
+        color: #fff;
+        font-size: 12px;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+
+    &__plot {
+        color: #fff;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    &__creators {
+        margin-top: 20px;
+
+        p {
+            font-size: 10px;
+            background-color: orange;
+            width: fit-content;
+            padding: 5px 10px;
+            margin-top: 10px;
+        }
+    }
+
+}
+
+.linkBack {
+    top: -10px;
+    left: 10px;
+    font-size: 60px;
+}
