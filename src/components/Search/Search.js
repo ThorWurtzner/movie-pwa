@@ -12,12 +12,14 @@ export default function Search() {
     var dataArray = useContext(dataContext);
 
     function handleSubmit(event) {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
         setSpin(true);
         var options = {
             method: 'GET',
             url: 'https://movie-database-imdb-alternative.p.rapidapi.com/',
-            params: {s: searchInput.charAt(searchInput.length - 1) === " " ? searchInput.slice(0, -1) : searchInput, page: '1', r: 'json'},
+            params: {s: !searchInput === undefined && searchInput.charAt(searchInput.length - 1) === " " ? searchInput.slice(0, -1) : searchInput, page: '1', r: 'json'},
             headers: {
                 'x-rapidapi-key': 'cbf0eada93mshda4348a7166d51bp13e11bjsna5929dc3ff1a',
                 'x-rapidapi-host': 'movie-database-imdb-alternative.p.rapidapi.com'
@@ -34,7 +36,11 @@ export default function Search() {
 
     return (
         <div className="frontpage">
-            <h1 className="siteHeading">The Movie Base</h1>
+            <h1 className="siteHeading" onClick={() => {
+                searchInput = undefined;
+                dataArray[0] = undefined;
+                handleSubmit()
+            }}>The Movie Base</h1>
             <div className="searchWrapper">
                 <form onSubmit={handleSubmit}>
                     <input onChange={event => setSearchInput(event.target.value)} type="text" />
