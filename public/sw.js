@@ -16,7 +16,7 @@ self.addEventListener("install", (event) => {
 
 // When something on the page fetches, this piece of code checks if the cache has a match
 // - and in that case will display what is cached, if not, return the fetched response
-self.addEventListener(fetch, (event) => {
+self.addEventListener("fetch", (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
