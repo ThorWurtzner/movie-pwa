@@ -9,7 +9,7 @@ function App() {
 
   var dataArray = useState([]);
 
-    Notification.requestPermission(function(status) {
+  Notification.requestPermission(function(status) {
     console.log("Notification permission status:", status);
   })
 
@@ -17,7 +17,9 @@ function App() {
     if (Notification.permission === "granted") {
       navigator.serviceWorker.getRegistration()
         .then(function(reg) {
-          reg.showNotification("Hello world");
+          reg.showNotification("Hello world", {
+            vibrate: [200, 100, 500, 100, 200, 100, 800, 100, 500]
+          });
         });
     }
   }
