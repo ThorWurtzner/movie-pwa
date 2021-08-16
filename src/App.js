@@ -17,9 +17,10 @@ function App() {
     if (Notification.permission === "granted") {
       navigator.serviceWorker.getRegistration()
         .then(function(reg) {
-          reg.showNotification("Hello world", {
+          var options = {
             vibrate: [200, 100, 500, 100, 200, 100, 800, 100, 500]
-          });
+          }
+          reg.showNotification("Hello world", options);
         });
     }
   }
