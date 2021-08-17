@@ -2,7 +2,7 @@ import './App.scss';
 import Search from "./components/Search/Search";
 import { Router } from "@reach/router";
 import SingleView from "./components/SingleView/SingleView";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dataContext from "./Context";
 
 function App() {
@@ -24,6 +24,29 @@ function App() {
         });
     }
   }
+
+  // const request = indexedDB.open("library");
+  // var [db, setDb] = useState({});
+
+  // useEffect(() => {
+  //   request.onupgradeneeded = function() {
+  //     const store = db.createObjectStore("Movie Ratings", {keyPath: "id"});
+  //     const titleIndex = store.createIndex("by_title", "title", {unique: true});
+  //     const ratingIndex = store.createIndex("by_rating", "rating");
+
+  //     store.put({title: "Good Will Hunting", rating: 2, id: 123456});
+  //     store.put({title: "Grease", rating: 3, id: 234567});
+  //     store.put({title: "Der Untergang", rating: 5, id: 345678});
+  //   };
+
+  //   request.onsuccess = function() {
+  //     setDb(request.result);
+  //   };
+  // }, [])
+
+  // var rating = db.transaction(["library"], "readwrite").get("234567");
+  // console.log(rating);
+
 
   return (
     <div className="App">
