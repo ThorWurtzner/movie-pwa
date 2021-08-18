@@ -2,7 +2,7 @@ import './App.scss';
 import Search from "./components/Search/Search";
 import { Router } from "@reach/router";
 import SingleView from "./components/SingleView/SingleView";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dataContext from "./Context";
 
 function App() {

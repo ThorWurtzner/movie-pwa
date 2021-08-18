@@ -17,7 +17,7 @@ export default function Search() {
         if (!dataArray[0] === undefined) {
             handleSubmit();
         }
-    }, [])
+    })
 
     function handleSubmit(event) {
         if (event) {
