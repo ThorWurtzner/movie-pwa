@@ -3,7 +3,7 @@ import axios from "axios";
 import "./SingleView.scss";
 import Spinner from "../Spinner/Spinner";
 import { Link } from "@reach/router";
-import { openDB, deleteDB, wrap, unwrap } from 'idb';
+import { openDB } from 'idb';
 
 export default function Singleview(props) {
 
@@ -30,7 +30,7 @@ export default function Singleview(props) {
 
     useEffect(() => {
         ratingDB();
-    }, [])
+    })
 
     async function ratingDB(rating) {
         if (!('indexedDB' in window)) {
@@ -44,6 +44,7 @@ export default function Singleview(props) {
                 const store = db.createObjectStore('movies', {
                     keyPath: "movieID"
                 });
+                console.log(store);
             },
         });
 
@@ -97,7 +98,6 @@ export default function Singleview(props) {
                                 <button className="resetBtn" onClick={() => setRatingState(undefined)}>↺</button>
                             </div>
                             </>
-
                         }
                     </div>
                     <div className="singleView__wrapper">
