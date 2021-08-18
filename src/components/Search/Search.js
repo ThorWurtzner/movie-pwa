@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import "./Search.scss";
 import axios from "axios";
 import Card from "../Card/Card";
@@ -10,6 +10,14 @@ export default function Search() {
     var [ spin, setSpin ] = useState();
     
     var dataArray = useContext(dataContext);
+
+    // Intended use is to make dataArray[0] be undefined by fetching once
+    // This is to make the turnary operator on line 77 put in the background image on page load
+    useEffect(() => {
+        if (!dataArray[0] === undefined) {
+            handleSubmit();
+        }
+    }, [])
 
     function handleSubmit(event) {
         if (event) {
@@ -34,8 +42,28 @@ export default function Search() {
         });
     }
 
+    Notification.requestPermission(function(status) {
+        // console.log("Notification permission status:", status);
+    })
+    
+    function displayNotification() {
+        if (Notification.permission === "granted") {
+            navigator.serviceWorker.getRegistration()
+            .then(function(reg) {
+                var options = {
+                vibrate: [200, 100, 500, 100, 200, 100, 800, 100, 500]
+                }
+                reg.showNotification("Hello world", options);
+            });
+        }
+    }
+
     return (
         <div className="frontpage">
+            <div style={{display: "flex", alignItems: "center"}}>
+                <button className="notificationBtn" onClick={displayNotification}></button>
+                <p style={{color: "#fff", fontFamily: "VT323", fontSize: "20px", marginLeft: "10px"}}>⇦ Notification</p>
+            </div>
             <h1 className="siteHeading" onClick={() => {
                 searchInput = undefined;
                 dataArray[0] = undefined;

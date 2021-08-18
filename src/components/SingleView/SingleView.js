@@ -3,10 +3,12 @@ import axios from "axios";
 import "./SingleView.scss";
 import Spinner from "../Spinner/Spinner";
 import { Link } from "@reach/router";
+import { openDB, deleteDB, wrap, unwrap } from 'idb';
 
 export default function Singleview(props) {
 
     var [ data, setData ] = useState();
+    var [ ratingState, setRatingState ] = useState();
     
     useEffect(() => {
         var options = {
@@ -26,7 +28,37 @@ export default function Singleview(props) {
         }); 
     }, [props.id])
 
-    console.log(data);
+    useEffect(() => {
+        ratingDB();
+    }, [])
+
+    async function ratingDB(rating) {
+        if (!('indexedDB' in window)) {
+            console.log('This browser doesn\'t support IndexedDB');
+            return;
+        }
+
+        const db = await openDB('Movies', 1, {
+            upgrade(db) {
+                // Create a store of objects
+                const store = db.createObjectStore('movies', {
+                    keyPath: "movieID"
+                });
+            },
+        });
+
+        // Only add an item to DB if the rating parameter is sent with the function call
+        if (rating) {
+            await db.add('movies', {
+                rating: rating,
+                movieID: props.id
+            });
+        }
+
+        var ratingOutput = await db.get('movies', props.id)
+        setRatingState(ratingOutput?.rating);
+    }
+
 
     return (
         <>
@@ -40,6 +72,33 @@ export default function Singleview(props) {
                     <div className="singleView__scores">
                         {data?.Metascore === "N/A" ? null : <div className="singleView__scores__metascore">{data?.Metascore}</div>}
                         {data?.imdbRating === "N/A" ? null : <p className="singleView__scores__imdb">{data?.imdbRating}</p>}
+                    </div>
+                    <div>
+                        { ratingState === undefined 
+                            ?
+                            <div className="ratings">
+                                <div onClick={() => {ratingDB(1)}}>★</div>
+                                <div onClick={() => {ratingDB(2)}}>★</div>
+                                <div onClick={() => {ratingDB(3)}}>★</div>
+                                <div onClick={() => {ratingDB(4)}}>★</div>
+                                <div onClick={() => {ratingDB(5)}}>★</div>
+                            </div>
+                            :
+                            <>
+                            <div className="ratingShow">
+                                {
+                                    [...Array(ratingState)].map(() => {
+                                        return(
+                                            <div>★</div>
+                                        )
+                                    })
+                                }
+                                {/* MAKE BUTTON REMOVE MOVIE FROM DATABASE AS WELL AS EMPTY STATE LIKE SO */}
+                                <button className="resetBtn" onClick={() => setRatingState(undefined)}>↺</button>
+                            </div>
+                            </>
+
+                        }
                     </div>
                     <div className="singleView__wrapper">
                         <img src={data?.Poster === "N/A" ? "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=6&m=1147544807&s=612x612&w=0&h=8CXEtGfDlt7oFx7UyEZClHojvDjZR91U-mAU8UlFF4Y=" : data?.Poster} alt="" />
