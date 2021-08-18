@@ -30,7 +30,7 @@ export default function Singleview(props) {
 
     useEffect(() => {
         ratingDB();
-    })
+    }, [])
 
     async function ratingDB(rating) {
         if (!('indexedDB' in window)) {
