@@ -177,7 +177,7 @@ export default function Singleview(props) {
                             </div>
                         </div>
                     </div>
-                    <Link className="linkBack" to="/">«</Link>
+                    <Link className="linkBack" to="/">⇦</Link>
                 </>
                 }
             </div>

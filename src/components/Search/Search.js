@@ -10,19 +10,24 @@ export default function Search() {
     var [ spin, setSpin ] = useState();
     
     var dataArray = useContext(dataContext);
-
+    
     // Intended use is to make dataArray[0] be undefined by fetching once
     // This is to make the turnary operator on line 77 put in the background image on page load
+    // Når jeg skriver i input, sætter jeg et state, som får hele komponentet til at rerender hver gang
+
     // useEffect(() => {
     //     if (!dataArray[0] === undefined) {
-    //         handleSubmit();
+    //         dataArray[1](undefined);
     //     }
     // }, [])
+
+    console.log(dataArray[0]);
 
     function handleSubmit(event) {
         if (event) {
             event.preventDefault();
         }
+
         setSpin(true);
         var options = {
             method: 'GET',
@@ -43,7 +48,7 @@ export default function Search() {
     }
 
     Notification.requestPermission(function(status) {
-        console.log("Notification permission status:", status);
+        // console.log("Notification permission status:", status);
     })
     
     function displayNotification() {
@@ -67,7 +72,7 @@ export default function Search() {
             <h1 className="siteHeading" onClick={() => {
                 searchInput = undefined;
                 dataArray[0] = undefined;
-                handleSubmit()
+                handleSubmit();
             }}>The Movie Base</h1>
             <div className="searchWrapper">
                 <form onSubmit={handleSubmit}>
@@ -76,7 +81,7 @@ export default function Search() {
                 </form>
             </div>
             <div className="cards">
-                { dataArray[0] === undefined ? <img className="cards__bg" src="https://media.istockphoto.com/vectors/movie-time-vector-illustration-cinema-poster-concept-on-red-round-vector-id911590226?k=6&m=911590226&s=612x612&w=0&h=u6vP2FnJG8Ib3O1xofOUeJ5NtHWrWdRnV-OSL8arBnk=" alt="" /> : dataArray[0]?.map(result => {
+                { dataArray[0] === undefined || dataArray[0].length < 1 ? <img className="cards__bg" src="./icon.png" alt="" /> : dataArray[0]?.map(result => {
                     return (
                         spin === true ? <Spinner /> :
                         <Card title={result.Title} image={result.Poster} year={result.Year} id={result.imdbID} />

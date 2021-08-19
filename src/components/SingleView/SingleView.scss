@@ -3,6 +3,7 @@
 .singleView {
     padding: 30px 0;
     max-width: 300px;
+    position: relative;
 
     @include desktop {
         max-width: 800px;
@@ -110,9 +111,8 @@
 }
 
 .linkBack {
-    top: -10px;
-    left: 10px;
-    font-size: 60px;
+    font-size: 40px;
+    color: orange;
 }
 
 .ratings {
@@ -177,6 +177,8 @@
     border-radius: 2px;
     background-color: rgb(255, 187, 60);
     font-size: 20px;
+    display: grid;
+    place-items: center;
     font-weight: bold;
     cursor: pointer;
 
