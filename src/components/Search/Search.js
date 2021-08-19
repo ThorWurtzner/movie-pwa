@@ -13,11 +13,11 @@ export default function Search() {
 
     // Intended use is to make dataArray[0] be undefined by fetching once
     // This is to make the turnary operator on line 77 put in the background image on page load
-    useEffect(() => {
-        if (!dataArray[0] === undefined) {
-            handleSubmit();
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!dataArray[0] === undefined) {
+    //         handleSubmit();
+    //     }
+    // }, [])
 
     function handleSubmit(event) {
         if (event) {
@@ -43,7 +43,7 @@ export default function Search() {
     }
 
     Notification.requestPermission(function(status) {
-        // console.log("Notification permission status:", status);
+        console.log("Notification permission status:", status);
     })
     
     function displayNotification() {

@@ -9,6 +9,8 @@ export default function Singleview(props) {
 
     var [ data, setData ] = useState();
     var [ ratingState, setRatingState ] = useState();
+    var [ commentState, setCommentState ] = useState();
+    var [ inputValue, setInputValue ] = useState();
     
     useEffect(() => {
         var options = {
@@ -30,6 +32,7 @@ export default function Singleview(props) {
 
     useEffect(() => {
         ratingDB();
+        commentDB();
     }, [])
 
     async function ratingDB(rating) {
@@ -62,6 +65,37 @@ export default function Singleview(props) {
 
         var ratingOutput = await db.get('movies', props.id)
         setRatingState(ratingOutput?.rating);
+    }
+
+
+
+    async function commentDB(event, comment) {
+        if (event) {
+            event.preventDefault();
+        }
+
+        const db = await openDB('Comments', 1, {
+            upgrade(db) {
+                const store = db.createObjectStore('comments', {
+                    keyPath: "movieID"
+                });
+            }
+        });
+
+        if (comment) {
+            await db.add('comments', {
+                comment: comment,
+                movieID: props.id
+            });
+        }
+
+        if (itemDelete === true) {
+            await db.delete('comments', props.id)
+            itemDelete = false;
+        }
+
+        var commentOutput = await db.get('comments', props.id)
+        setCommentState(commentOutput?.comment);
     }
 
     var itemDelete = false;
@@ -109,6 +143,27 @@ export default function Singleview(props) {
                             </>
                         }
                     </div>
+
+                    <div>
+                        { commentState === undefined
+                            ?
+                            <form className="reviewForm" onSubmit={event => commentDB(event, inputValue)}>
+                                <textarea onChange={event => setInputValue(event.target.value)} id="comment" placeholder="Write review here..." maxLength="150" />
+                                <button type="submit">Submit Review</button>
+                            </form>
+                            :
+                            <div className="commentShow">
+                                <p>{commentState}</p>
+                                <button className="resetBtn" onClick={() => {
+                                    setCommentState(undefined);
+                                    itemDelete = true;
+                                    commentDB();
+                                }}
+                                >↺</button>
+                            </div>
+                        }
+                    </div>
+
                     <div className="singleView__wrapper">
                         <img src={data?.Poster === "N/A" ? "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=6&m=1147544807&s=612x612&w=0&h=8CXEtGfDlt7oFx7UyEZClHojvDjZR91U-mAU8UlFF4Y=" : data?.Poster} alt="" />
                         <div className="singleView__content">
