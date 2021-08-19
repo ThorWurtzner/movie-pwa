@@ -44,8 +44,7 @@ export default function Singleview(props) {
                 const store = db.createObjectStore('movies', {
                     keyPath: "movieID"
                 });
-                console.log(store);
-            },
+            }
         });
 
         // Only add an item to DB if the rating parameter is sent with the function call
@@ -56,11 +55,16 @@ export default function Singleview(props) {
             });
         }
 
+        if (itemDelete === true) {
+            await db.delete('movies', props.id)
+            itemDelete = false;
+        }
+
         var ratingOutput = await db.get('movies', props.id)
         setRatingState(ratingOutput?.rating);
     }
 
-
+    var itemDelete = false;
     return (
         <>
             <div className="singleView">
@@ -78,11 +82,11 @@ export default function Singleview(props) {
                         { ratingState === undefined 
                             ?
                             <div className="ratings">
-                                <div onClick={() => {ratingDB(1)}}>★</div>
-                                <div onClick={() => {ratingDB(2)}}>★</div>
-                                <div onClick={() => {ratingDB(3)}}>★</div>
-                                <div onClick={() => {ratingDB(4)}}>★</div>
                                 <div onClick={() => {ratingDB(5)}}>★</div>
+                                <div onClick={() => {ratingDB(4)}}>★</div>
+                                <div onClick={() => {ratingDB(3)}}>★</div>
+                                <div onClick={() => {ratingDB(2)}}>★</div>
+                                <div onClick={() => {ratingDB(1)}}>★</div>
                             </div>
                             :
                             <>
@@ -95,7 +99,12 @@ export default function Singleview(props) {
                                     })
                                 }
                                 {/* MAKE BUTTON REMOVE MOVIE FROM DATABASE AS WELL AS EMPTY STATE LIKE SO */}
-                                <button className="resetBtn" onClick={() => setRatingState(undefined)}>↺</button>
+                                <button className="resetBtn" onClick={() => {
+                                    setRatingState(undefined);
+                                    itemDelete = true;
+                                    ratingDB();
+                                }}
+                                >↺</button>
                             </div>
                             </>
                         }
