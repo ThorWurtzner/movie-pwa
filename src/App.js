@@ -8,13 +8,15 @@ import dataContext from "./Context";
 function App() {
 
   var dataArray = useState([]);
+  var [ searchInput, setSearchInput ] = useState("");
+  var [ page, setPage ] = useState(1);
 
 
   return (
     <div className="App">
       <dataContext.Provider value={dataArray}>
         <Router>
-          <Search path="/" />
+          <Search path="/" pageState={{page, setPage}} searchState={{searchInput, setSearchInput}} />
           <SingleView path="/single-view/:id" />
         </Router>
       </dataContext.Provider>
